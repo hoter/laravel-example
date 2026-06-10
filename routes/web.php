@@ -4,7 +4,38 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $projects = [
+        ['id' => 1, 'title' => 'Task Manager', 'description' => 'Приложение для управления задачами', 'tech' => ['PHP', 'Laravel', 'MySQL'], 'github' => 'https://github.com/user/task-manager'],
+        ['id' => 2, 'title' => 'Blog Platform', 'description' => 'Платформа для ведения блога', 'tech' => ['Laravel', 'Blade', 'Tailwind'], 'github' => 'https://github.com/user/blog-platform'],
+        ['id' => 3, 'title' => 'Weather API', 'description' => 'Сервис для получения погоды', 'tech' => ['PHP', 'Guzzle', 'API'], 'github' => 'https://github.com/user/weather-api'],
+    ];
+    return view('welcome', ['projects' => $projects]);
+});
+
+Route::get('/projects', function () {
+    $projects = [
+        ['id' => 1, 'title' => 'Task Manager', 'description' => 'Приложение для управления задачами', 'tech' => ['PHP', 'Laravel', 'MySQL'], 'github' => 'https://github.com/user/task-manager'],
+        ['id' => 2, 'title' => 'Blog Platform', 'description' => 'Платформа для ведения блога', 'tech' => ['Laravel', 'Blade', 'Tailwind'], 'github' => 'https://github.com/user/blog-platform'],
+        ['id' => 3, 'title' => 'Weather API', 'description' => 'Сервис для получения погоды', 'tech' => ['PHP', 'Guzzle', 'API'], 'github' => 'https://github.com/user/weather-api'],
+    ];
+    return view('projects', ['projects' => $projects]);
+});
+
+Route::get('/projects/{id}', function (int $id) {
+    $projects = [
+        ['id' => 1, 'title' => 'Task Manager', 'description' => 'Приложение для управления задачами', 'tech' => ['PHP', 'Laravel', 'MySQL'], 'github' => 'https://github.com/user/task-manager'],
+        ['id' => 2, 'title' => 'Blog Platform', 'description' => 'Платформа для ведения блога', 'tech' => ['Laravel', 'Blade', 'Tailwind'], 'github' => 'https://github.com/user/blog-platform'],
+        ['id' => 3, 'title' => 'Weather API', 'description' => 'Сервис для получения погоды', 'tech' => ['PHP', 'Guzzle', 'API'], 'github' => 'https://github.com/user/weather-api'],
+    ];
+    return view('project', ['project' => $projects[$id]]);
+})->whereNumber('id');
+
+Route::get('/contacts', function() {
+    return view('contacts');
+});
+
+Route::get('/about', function() {
+    return view('about');
 });
 
 Route::get('/portfolio', function() {

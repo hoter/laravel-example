@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Title')
-
-@section('sidebar')
-    @parent
- 
-    <p>This is appended to the master sidebar.</p>
-@endsection
+@section('title', 'Projects')
  
 @section('content')
     <ul>

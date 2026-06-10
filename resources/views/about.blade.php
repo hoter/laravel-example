@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'About')
+
 @section('content')
-<form method="POST" action="/products">
-@csrf
-</form>
+    About me
 @endsection
