@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Models\Product;
 
 Route::get('/', function () {
     $projects = [
@@ -33,6 +32,10 @@ Route::get('/projects/{id}', function (int $id) {
 
 Route::get('/contacts', function() {
     return view('contacts');
+});
+
+Route::get('/about', function() {
+    return view('about');
 });
 
 Route::get('/portfolio', function() {
