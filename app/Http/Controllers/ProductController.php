@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -11,7 +12,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        $products = Product::where('is_active', '=', true)->orderBy('name')->get();
+        return view('products.index', ['products' => $products]);
     }
 
     /**
@@ -33,9 +35,11 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        return view('products.show');
+        $product->views++;
+        $product->save();
+        return view('products.show', ['product' => $product]);
     }
 
     /**

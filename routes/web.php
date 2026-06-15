@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 
 Route::get('/', function () {
     $projects = [
@@ -46,9 +47,7 @@ Route::get('/services', function() {
     return '<ul><li>1</li><li>2</li><li>3</li></ul>';
 });
 
-Route::get('/product/{id}', function(int $id) {
-    return "Товар №{$id}";
-})->whereNumber('id');
+Route::get('/product/{id}', [ProductController::class, 'show']);
 
 Route::get('/blog/{category}/{slug}', function($category, $slug) {
     return "Товар №{$slug} из категории {$category}";

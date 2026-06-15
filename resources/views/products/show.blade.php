@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-1 Product
+  {{ $product->name }} views: {{ $product->views }}
 @endsection
