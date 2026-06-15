@@ -35,10 +35,6 @@ Route::get('/contacts', function() {
     return view('contacts');
 });
 
-Route::get('/about', function() {
-    return view('about');
-});
-
 Route::get('/portfolio', function() {
     return 'Мое портфолио';
 });
