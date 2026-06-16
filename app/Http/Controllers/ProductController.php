@@ -13,7 +13,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::where('is_active', '=', true)->orderBy('name')->get();
-        return view('products.index', ['products' => $products]);
+        $summ = 0;
+        foreach ($products as $product) {
+            $summ += $product->price;
+        }
+        $summ /= count($products);
+        return view('products.index', ['products' => $products, 'average' => $summ]);
     }
 
     /**
@@ -29,6 +34,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        Product::create($request->input());
         return redirect()->route("products.index")->with("success", "Товар создан!");
     }
 

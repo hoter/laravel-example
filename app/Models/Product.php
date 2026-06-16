@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[Fillable(['name', 'sku', 'description', 'price', 'old_price', 'stock', 'category_id', 'is_active', 'created_at', 'updated_at'])]
 class Product extends Model
@@ -22,5 +23,11 @@ class Product extends Model
         'stock' => 0,
         'is_active' => false,
     ];
+
+    protected function formattedPrice():Attribute {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['price'] . ' руб.'
+        );
+    }
 
 }
