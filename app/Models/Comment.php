@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 
+#[Fillable('content', 'is_approved', 'user_id', 'post_id')]
 class Comment extends Model
 {
     public function post(): BelongsTo {
