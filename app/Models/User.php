@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Profile;
+use App\Models\Comment;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -33,5 +36,13 @@ class User extends Authenticatable
 
     public function likes(): HasMany {
         return $this->hasMany(Like::class);
+    }
+
+    public function profile(): HasOne {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function posts(): HasMany {
+        return $this->hasMany(Comment::class);
     }
 }
