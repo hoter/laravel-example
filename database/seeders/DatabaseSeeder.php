@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PostSeeder::class,
             ReviewSeeder::class,
+            ProfileSeeder::class,
         ]);
     }
 }
