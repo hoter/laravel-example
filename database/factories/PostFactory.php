@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Tag;
 
 /**
  * @extends Factory<Post>
@@ -28,6 +29,7 @@ class PostFactory extends Factory
             'published_at' => fake()->dateTimeBetween('-6 months', 'now'),
             'created_at' => now(),
             'updated_at' => now(),
+            'tags' => Tag::factory()
         ];
     }
 
