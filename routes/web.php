@@ -74,11 +74,11 @@ Route::prefix('admin')->group(function() {
     });
 });
 
-Route::get('/post/{post}', function(Post $post) {
+Route::get('/posts/{post}', function(Post $post) {
     return view('post', ['post' => $post]);
 });
 
-Route::get('/user/{user}', function(User $user) {
+Route::get('/users/{user}', function(User $user) {
     return view('user', ['user' => $user]);
 });
 

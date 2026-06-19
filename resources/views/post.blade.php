@@ -3,7 +3,7 @@
 @section('title', 'Post')
 
 @section('content')
-    <p>Author: <a href="{{ url('/user/' . $post['author']['id']) }}">{{ $post['author']['name'] }}</a></p>
+    <p>Author: <a href="{{ url('/users/' . $post['author']['id']) }}">{{ $post['author']['name'] }}</a></p>
     <p>Category: {{ $post['category']['name'] ?? 'Test' }}</p>
     <p>Tags:</p>
     <ul>
