@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Models\Post;
+use App\Models\User;
 
 Route::get('/', function () {
     $projects = [
@@ -70,6 +72,14 @@ Route::prefix('admin')->group(function() {
     Route::get('/dzen', function() {
         return "dzen";
     });
+});
+
+Route::get('/post/{post}', function(Post $post) {
+    return view('post', ['post' => $post]);
+});
+
+Route::get('/user/{user}', function(User $user) {
+    return view('user', ['user' => $user]);
 });
 
 Route::resource('products', ProductController::class);
