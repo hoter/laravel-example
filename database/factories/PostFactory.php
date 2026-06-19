@@ -29,8 +29,22 @@ class PostFactory extends Factory
             'published_at' => fake()->dateTimeBetween('-6 months', 'now'),
             'created_at' => now(),
             'updated_at' => now(),
-            'tags' => Tag::factory()
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Post $post) {
+            if (Tag::count() === 0) {
+                Tag::factory(10)->create();
+            }
+
+            $tagIds = Tag::inRandomOrder()
+                ->take(rand(1, 3))
+                ->pluck('id');
+
+            $post->tags()->attach($tagIds);
+        });
     }
 
     public function published(): static
