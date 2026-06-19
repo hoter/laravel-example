@@ -36,6 +36,12 @@ class User extends Authenticatable
         ];
     }
 
+    public function configure(): static {
+        return $this->afterCreating(function (User $user) {
+            Profile::factory()->for($user)->create();
+        });
+    }
+
     public function likes(): HasMany {
         return $this->hasMany(Like::class);
     }

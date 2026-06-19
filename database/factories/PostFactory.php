@@ -46,7 +46,7 @@ class PostFactory extends Factory
 
             $post->tags()->attach($tagIds);
 
-            Comment::factory()->count(rand(0, 10))->for($post)->create();
+            Comment::factory()->count(rand(1, 5))->for($post)->create();
         });
     }
 
