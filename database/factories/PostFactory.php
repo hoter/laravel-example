@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\Tag;
+use App\Models\Comment;
 
 /**
  * @extends Factory<Post>
@@ -44,6 +45,8 @@ class PostFactory extends Factory
                 ->pluck('id');
 
             $post->tags()->attach($tagIds);
+
+            Comment::factory()->count(rand(0, 10))->for($post)->create();
         });
     }
 
