@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 //profiles: id, user_id, bio, avatar, website
-#[Fillable('bio', 'avatart', 'website')]
+#[Fillable('bio', 'avatar', 'website')]
 class Profile extends Model
 {
     /** @use HasFactory<\Database\Factories\ProfileFactory> */

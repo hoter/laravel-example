@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
@@ -83,13 +84,13 @@ class RelationshipTest extends TestCase
 
     public function test_post_has_author_relationship(): void
     {
-        $post = new Post;
+        $post = Post::factory()->create();
 
-        $hasAuthor = method_exists($post, 'author')
-            || method_exists($post, 'user')
-            || method_exists($post, 'owner');
-
-        $this->assertTrue($hasAuthor, 'Post must have author(), user() or owner() relationship');
+        $this->assertInstanceOf(
+            User::class,
+            $post->author,
+            'Post author() must return a User'
+        );
     }
 
     public function test_post_belongs_to_category(): void
@@ -146,12 +147,13 @@ class RelationshipTest extends TestCase
 
     public function test_comment_belongs_to_author(): void
     {
-        $comment = new Comment;
+        $comment = Comment::factory()->create();
 
-        $hasAuthor = method_exists($comment, 'author')
-            || method_exists($comment, 'user');
-
-        $this->assertTrue($hasAuthor, 'Comment must have author() or user() relationship');
+        $this->assertInstanceOf(
+            User::class,
+            $comment->author,
+            'Comment author() must return a User'
+        );
     }
 
     public function test_comment_model_has_fillable_attributes(): void
@@ -285,6 +287,86 @@ class RelationshipTest extends TestCase
         $this->assertNotNull(
             $user->profile,
             'UserFactory must create related profile'
+        );
+    }
+
+    // ============ Урок 27: Страница поста ============
+
+    public function test_post_show_page_exists(): void
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->get("/posts/{$post->id}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_post_show_page_displays_author(): void
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->get("/posts/{$post->id}");
+
+        $response->assertSee(e($post->author->name));
+    }
+
+    public function test_post_show_page_displays_category(): void
+    {
+        $category = Category::factory()->create();
+        $post = Post::factory()->create(['category_id' => $category->id]);
+
+        $response = $this->get("/posts/{$post->id}");
+
+        $response->assertSee(e($category->name));
+    }
+
+    public function test_post_show_page_displays_tags(): void
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->get("/posts/{$post->id}");
+
+        foreach ($post->tags as $tag) {
+            $response->assertSee(e($tag->name));
+        }
+    }
+
+    public function test_post_show_page_displays_comments(): void
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->get("/posts/{$post->id}");
+
+        $this->assertNotEmpty($post->comments, 'Post must have at least one comment to test display');
+
+        foreach ($post->comments as $comment) {
+            $response->assertSee(e($comment->author->name));
+        }
+    }
+
+    public function test_post_show_page_displays_likes_count(): void
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->get("/posts/{$post->id}");
+
+        $response->assertSee((string) $post->likes()->count());
+    }
+
+    public function test_post_show_uses_eager_loading(): void
+    {
+        $post = Post::factory()->create();
+
+        DB::enableQueryLog();
+
+        $this->get("/posts/{$post->id}");
+
+        $queries = DB::getQueryLog();
+
+        $this->assertLessThan(
+            25,
+            count($queries),
+            'Post show page should use eager loading. Got '.count($queries).' queries.'
         );
     }
 }
